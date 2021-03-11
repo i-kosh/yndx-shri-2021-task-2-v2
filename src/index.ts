@@ -15,7 +15,7 @@ import {
   SummaryId,
   UserId,
 } from "./types";
-import { StoryData, Slide, LeadersData } from "./stories";
+import { StoryData, Slide, LeadersData, VoteData } from "./stories";
 
 interface ISprint {
   sprintId: number;
@@ -92,6 +92,65 @@ function createLeaders(
   return leaders;
 }
 
+function createVote(
+  currentSprint?: Sprint,
+  comments?: Map<CommentId, Comment>,
+  users?: Map<UserId, User>
+): Slide<VoteData> {
+  const sprintName = currentSprint?.name || "";
+
+  const slide: Slide<VoteData> = {
+    alias: "vote",
+    data: {
+      title: "Самый 🔎 внимательный разработчик",
+      emoji: "🔎",
+      subtitle: sprintName,
+      users: [],
+    },
+  };
+
+  const usersMap: Map<User, number> = new Map();
+
+  if (currentSprint && comments && users) {
+    comments.forEach((comment) => {
+      if (
+        comment.createdAt >= currentSprint.startAt &&
+        comment.createdAt <= currentSprint.finishAt
+      ) {
+        const author =
+          typeof comment.author !== "number"
+            ? comment.author
+            : users.get(comment.author);
+        if (!author) {
+          console.warn("автор не найден");
+          return;
+        }
+
+        const currentLikesCount = usersMap.get(author);
+        usersMap.set(author, (currentLikesCount || 0) + comment.likes.length);
+      }
+    });
+  }
+
+  for (const val of usersMap) {
+    const user = val[0];
+    const likesCount = val[1];
+
+    slide.data.users.push({
+      avatar: user.avatar,
+      id: user.id,
+      name: user.name,
+      valueText: `${likesCount}`,
+    });
+  }
+
+  slide.data.users.sort(
+    (a, b) => parseInt(b.valueText) - parseInt(a.valueText)
+  );
+
+  return slide;
+}
+
 export default function prepareData(
   entities: Entity[],
   selected: ISprint
@@ -142,7 +201,10 @@ export default function prepareData(
     }
   }
 
-  return [createLeaders(currentSprint, commits, users)];
+  return [
+    createLeaders(currentSprint, commits, users),
+    createVote(currentSprint, comments, users),
+  ];
 }
 
 export { prepareData };
