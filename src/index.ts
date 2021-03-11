@@ -79,9 +79,15 @@ function createLeaders(
     });
   }
 
-  leaders.data.users.sort(
-    (a, b) => parseInt(b.valueText) - parseInt(a.valueText)
-  );
+  leaders.data.users.sort((a, b) => {
+    const verdict1 = parseInt(b.valueText) - parseInt(a.valueText);
+
+    if (verdict1 === 0) {
+      return a.id - b.id;
+    }
+
+    return verdict1;
+  });
 
   return leaders;
 }
