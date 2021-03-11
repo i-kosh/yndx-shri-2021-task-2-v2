@@ -72,7 +72,10 @@ export type TemplateData =
   | ActivityData
   | DiagramData
   | ChartData;
-export type StoryData = {
+
+export type Slide<T extends TemplateData> = {
   alias: TemplateAlias;
-  data: VoteData | ChartData | DiagramData | ActivityData | LeadersData;
-}[];
+  data: T;
+};
+
+export type StoryData = Slide<TemplateData>[];
