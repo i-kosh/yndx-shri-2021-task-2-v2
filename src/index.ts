@@ -15,7 +15,14 @@ import {
   SummaryId,
   UserId,
 } from "./types";
-import { StoryData, Slide, LeadersData, VoteData } from "./stories";
+import {
+  StoryData,
+  Slide,
+  LeadersData,
+  VoteData,
+  ChartData,
+  User as SlideUser,
+} from "./stories";
 
 interface ISprint {
   sprintId: number;
@@ -151,6 +158,69 @@ function createVote(
   return slide;
 }
 
+function createChart(
+  currentSprint?: Sprint,
+  users?: SlideUser[],
+  sprints?: Map<SprintId, Sprint>,
+  commits?: Map<CommitId, Commit>
+): Slide<ChartData> {
+  const sprintName = currentSprint?.name || "";
+
+  const slide: Slide<ChartData> = {
+    alias: "chart",
+    data: {
+      subtitle: sprintName,
+      title: "Коммиты",
+      users: users || [],
+      values: [],
+    },
+  };
+
+  const sprintsMap: Map<Sprint, number> = new Map();
+
+  if (currentSprint && sprints && commits) {
+    commits.forEach((commit) => {
+      for (const val of sprints) {
+        const sprint = val[1];
+
+        if (!sprintsMap.has(sprint)) {
+          sprintsMap.set(sprint, 0);
+        }
+
+        if (
+          commit.timestamp >= sprint.startAt &&
+          commit.timestamp <= sprint.finishAt
+        ) {
+          const currentCommitsCount = sprintsMap.get(sprint) || 0;
+          sprintsMap.set(sprint, currentCommitsCount + 1);
+          break;
+        }
+      }
+    });
+  }
+
+  for (const val of sprintsMap) {
+    const sprint = val[0];
+    const commitsCount = val[1];
+
+    const obj: Slide<ChartData>["data"]["values"][0] = {
+      title: `${sprint.id}`,
+      value: commitsCount,
+      hint: sprint.name,
+    };
+
+    if (currentSprint?.id === sprint.id) {
+      obj.active = true;
+    }
+
+    slide.data.values.push(obj);
+  }
+
+  slide.data.values.sort((a, b) => parseInt(a.title) - parseInt(b.title));
+
+  return slide;
+}
+
 export default function prepareData(
   entities: Entity[],
   selected: ISprint
@@ -201,10 +271,16 @@ export default function prepareData(
     }
   }
 
-  return [
-    createLeaders(currentSprint, commits, users),
-    createVote(currentSprint, comments, users),
-  ];
+  const leadersSlide = createLeaders(currentSprint, commits, users);
+  const voteSlide = createVote(currentSprint, comments, users);
+  const chartSlide = createChart(
+    currentSprint,
+    voteSlide.data.users,
+    sprints,
+    commits
+  );
+
+  return [leadersSlide, voteSlide, chartSlide];
 }
 
 export { prepareData };
