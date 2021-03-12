@@ -79,9 +79,9 @@ function createLeaders(
     const commitsSet = val[1];
 
     leaders.data.users.push({
-      avatar: user.avatar,
       id: user.id,
       name: user.name,
+      avatar: user.avatar,
       valueText: `${commitsSet.size}`,
     });
   }
@@ -144,9 +144,9 @@ function createVote(
     const likesCount = val[1];
 
     slide.data.users.push({
-      avatar: user.avatar,
       id: user.id,
       name: user.name,
+      avatar: user.avatar,
       valueText: `${likesCount}`,
     });
   }
@@ -275,7 +275,7 @@ export default function prepareData(
   const voteSlide = createVote(currentSprint, comments, users);
   const chartSlide = createChart(
     currentSprint,
-    voteSlide.data.users,
+    leadersSlide.data.users,
     sprints,
     commits
   );
