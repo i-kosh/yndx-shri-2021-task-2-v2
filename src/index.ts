@@ -23,6 +23,7 @@ import {
   ChartData,
   User as SlideUser,
 } from "./stories";
+import { noun } from "plural-ru";
 
 interface ISprint {
   sprintId: number;
@@ -147,7 +148,12 @@ function createVote(
       id: user.id,
       name: user.name,
       avatar: user.avatar,
-      valueText: `${likesCount}`,
+      valueText: `${likesCount} ${noun(
+        likesCount,
+        "голос",
+        "голоса",
+        "голосов"
+      )}`,
     });
   }
 
