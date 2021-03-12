@@ -361,10 +361,9 @@ function createDiagram(
     )}`;
 
     const totalDiff = commitsInCurrent.length - commitsInPrev.length;
-    slide.data.differenceText = `${withLeadingSign(totalDiff)} ${getPlural(
-      totalDiff,
-      commitsPlurals
-    )}`;
+    slide.data.differenceText = `${withLeadingSign(
+      totalDiff
+    )} с прошлого спринта`;
 
     categories.forEach((category) => {
       const sizeDiff = category.currentCommitsCount - category.prevCommitsCount;
