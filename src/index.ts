@@ -24,7 +24,8 @@ import {
   User as SlideUser,
   DiagramData,
 } from "./stories";
-import { noun } from "plural-ru";
+
+import getPlural from "./utils/getPlural";
 
 interface ISprint {
   sprintId: number;
@@ -153,12 +154,11 @@ function createVote(
       id: user.id,
       name: user.name,
       avatar: user.avatar,
-      valueText: `${likesCount} ${noun(
-        likesCount,
+      valueText: `${likesCount} ${getPlural(likesCount, [
         "голос",
         "голоса",
-        "голосов"
-      )}`,
+        "голосов",
+      ])}`,
     });
   }
 
@@ -355,15 +355,15 @@ function createDiagram(
       }
     });
 
-    slide.data.totalText = `${commitsInCurrent.length} ${noun(
+    slide.data.totalText = `${commitsInCurrent.length} ${getPlural(
       commitsInCurrent.length,
-      ...commitsPlurals
+      commitsPlurals
     )}`;
 
     const totalDiff = commitsInCurrent.length - commitsInPrev.length;
-    slide.data.differenceText = `${withLeadingSign(totalDiff)} ${noun(
+    slide.data.differenceText = `${withLeadingSign(totalDiff)} ${getPlural(
       totalDiff,
-      ...commitsPlurals
+      commitsPlurals
     )}`;
 
     categories.forEach((category) => {
@@ -371,13 +371,13 @@ function createDiagram(
 
       slide.data.categories.push({
         title: category.title,
-        valueText: `${category.currentCommitsCount} ${noun(
+        valueText: `${category.currentCommitsCount} ${getPlural(
           category.currentCommitsCount,
-          ...commitsPlurals
+          commitsPlurals
         )}`,
-        differenceText: `${withLeadingSign(sizeDiff)} ${noun(
+        differenceText: `${withLeadingSign(sizeDiff)} ${getPlural(
           Math.abs(sizeDiff),
-          ...commitsPlurals
+          commitsPlurals
         )}`,
       });
     });
