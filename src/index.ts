@@ -29,7 +29,8 @@ interface ISprint {
 }
 
 function withLeadingSign(val: number): string {
-  return val >= 0 ? `+${val}` : `${val}`;
+  if (val === 0) return "0";
+  return val > 0 ? `+${val}` : `${val}`;
 }
 
 function createLeaders(
@@ -351,7 +352,8 @@ function createDiagram(
     )} с прошлого спринта`;
 
     categories.forEach((category) => {
-      const sizeDiff = category.currentCommitsCount - category.prevCommitsCount;
+      const commitsCountDiff =
+        category.currentCommitsCount - category.prevCommitsCount;
 
       slide.data.categories.push({
         title: category.title,
@@ -359,8 +361,8 @@ function createDiagram(
           category.currentCommitsCount,
           commitsPlurals
         )}`,
-        differenceText: `${withLeadingSign(sizeDiff)} ${getPlural(
-          Math.abs(sizeDiff),
+        differenceText: `${withLeadingSign(commitsCountDiff)} ${getPlural(
+          Math.abs(commitsCountDiff),
           commitsPlurals
         )}`,
       });
