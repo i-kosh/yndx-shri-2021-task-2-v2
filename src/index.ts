@@ -2,16 +2,12 @@ import {
   Entity,
   Commit,
   Comment,
-  Issue,
-  Project,
   Sprint,
   Summary,
   User,
   CommentId,
   CommitId,
-  IssueId,
   SprintId,
-  ProjectId,
   SummaryId,
   UserId,
 } from "./types";
@@ -25,7 +21,7 @@ import {
   DiagramData,
   ActivityData,
 } from "./stories";
-
+import parseEntitis from "./parseEntitis";
 import getPlural from "./utils/getPlural";
 
 interface ISprint {
@@ -441,51 +437,10 @@ export default function prepareData(
     sprintId: 0,
   }
 ): StoryData {
-  const commits: Map<CommitId, Commit> = new Map();
-  const users: Map<UserId, User> = new Map();
-  const sprints: Map<SprintId, Sprint> = new Map();
-  const projects: Map<ProjectId, Project> = new Map();
-  const issues: Map<IssueId, Issue> = new Map();
-  const comments: Map<CommentId, Comment> = new Map();
-  const summarys: Map<SummaryId, Summary> = new Map();
-
-  entities.forEach((entity) => {
-    switch (entity.type) {
-      case "Commit":
-        commits.set(entity.id, entity);
-        break;
-      case "Comment":
-        comments.set(entity.id, entity);
-        break;
-      case "Issue":
-        issues.set(entity.id, entity);
-        break;
-      case "Project":
-        projects.set(entity.id, entity);
-        break;
-      case "Sprint":
-        sprints.set(entity.id, entity);
-        break;
-      case "User":
-        users.set(entity.id, entity);
-        break;
-      case "Summary":
-        summarys.set(entity.id, entity);
-        break;
-    }
-  });
-
-  let currentSprint: Sprint | undefined = undefined;
-
-  for (const val of sprints) {
-    const id = val[0];
-    const sprint = val[1];
-
-    if (id === selected.sprintId) {
-      currentSprint = sprint;
-      break;
-    }
-  }
+  const {
+    parsed: { comments, commits, sprints, summarys, users },
+    currentSprint,
+  } = parseEntitis(entities, selected.sprintId);
 
   const leadersSlide = createLeaders(currentSprint, commits, users);
   const voteSlide = createVote(currentSprint, comments, users);
