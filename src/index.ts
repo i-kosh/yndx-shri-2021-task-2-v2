@@ -436,8 +436,10 @@ function createActivity(
 }
 
 export default function prepareData(
-  entities: Entity[],
-  selected: ISprint
+  entities: Entity[] = [],
+  selected: ISprint = {
+    sprintId: 0,
+  }
 ): StoryData {
   const commits: Map<CommitId, Commit> = new Map();
   const users: Map<UserId, User> = new Map();
