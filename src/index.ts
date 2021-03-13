@@ -251,20 +251,8 @@ function createDiagram(
     },
   };
 
-  let prevSprint: Sprint | undefined;
   if (currentSprint && sprints && commits) {
-    sprints.forEach((sprint) => {
-      if (sprint.finishAt <= currentSprint.startAt) {
-        if (!prevSprint) {
-          prevSprint = sprint;
-          return;
-        }
-
-        if (prevSprint.startAt < sprint.startAt) {
-          prevSprint = sprint;
-        }
-      }
-    });
+    const prevSprint = sprints.get(currentSprint.id - 1);
 
     const commitsInCurrent: Commit[] = [];
     const commitsInPrev: Commit[] = [];
