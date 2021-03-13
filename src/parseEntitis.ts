@@ -16,7 +16,7 @@ import {
   UserId,
 } from "./types";
 
-interface IParsedEntitis {
+export interface IParsedEntitis {
   commits: Map<CommitId, Commit>;
   users: Map<UserId, User>;
   sprints: Map<SprintId, Sprint>;
@@ -26,7 +26,7 @@ interface IParsedEntitis {
   summarys: Map<SummaryId, Summary>;
 }
 
-interface IReturnData {
+export interface IReturnData {
   parsed: IParsedEntitis;
   currentSprint?: Sprint;
 }
