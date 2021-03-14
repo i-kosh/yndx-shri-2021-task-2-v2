@@ -29,7 +29,15 @@ describe("функция работает правильно", () => {
     expect(getPlural(101, [one, two, three])).toEqual(one);
   });
 
-  test("для отрицательных чисел", () => {
+  test("для -11", () => {
     expect(getPlural(-11, [one, two, three])).toEqual(three);
+  });
+
+  test("для -23", () => {
+    expect(getPlural(-23, [one, two, three])).toEqual(two);
+  });
+
+  test("для -1", () => {
+    expect(getPlural(-1, [one, two, three])).toEqual(one);
   });
 });
