@@ -306,7 +306,10 @@ function createDiagram(
       if (Array.isArray(commit.summaries)) {
         commit.summaries.forEach((summaryId) => {
           const summary = summarys?.get(summaryId);
-          size += (summary?.added || 0) + (summary?.removed || 0);
+
+          if (summary) {
+            size = size + summary.added + summary.removed;
+          }
         });
       } else {
         size = commit.summaries.added + commit.summaries.removed;
@@ -362,7 +365,7 @@ function createDiagram(
           commitsPlurals
         )}`,
         differenceText: `${withLeadingSign(commitsCountDiff)} ${getPlural(
-          Math.abs(commitsCountDiff),
+          commitsCountDiff,
           commitsPlurals
         )}`,
       });
