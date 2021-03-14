@@ -9,9 +9,47 @@ import {
 import { Slide, DiagramData } from "./stories";
 import { getPlural } from "./utils/getPlural";
 
+interface ICategory {
+  title: string;
+  min: number;
+  max: number;
+  currentCommitsCount: number;
+  prevCommitsCount: number;
+}
+
 function withLeadingSign(val: number): string {
   if (val === 0) return "0";
   return val > 0 ? `+${val}` : `${val}`;
+}
+
+function putInCategory(
+  categories: ICategory[],
+  commit: Commit,
+  summarys?: Map<SummaryId, Summary>,
+  inPrev?: boolean
+): ICategory[] {
+  let size = 0;
+  if (Array.isArray(commit.summaries)) {
+    commit.summaries.forEach((summaryId) => {
+      const summary = summarys?.get(summaryId);
+
+      if (summary) {
+        size = size + summary.added + summary.removed;
+      }
+    });
+  } else {
+    size = commit.summaries.added + commit.summaries.removed;
+  }
+
+  for (const category of categories) {
+    if (size >= category.min && size <= category.max) {
+      inPrev ? category.prevCommitsCount++ : category.currentCommitsCount++;
+
+      break;
+    }
+  }
+
+  return categories;
 }
 
 export default function createDiagram(
@@ -41,14 +79,6 @@ export default function createDiagram(
 
     const commitsInCurrent: Commit[] = [];
     const commitsInPrev: Commit[] = [];
-
-    interface ICategory {
-      title: string;
-      min: number;
-      max: number;
-      currentCommitsCount: number;
-      prevCommitsCount: number;
-    }
 
     const categories: ICategory[] = [
       {
@@ -81,42 +111,13 @@ export default function createDiagram(
       },
     ];
 
-    const putInCategory = (
-      categories: ICategory[],
-      commit: Commit,
-      inPrev?: boolean
-    ): ICategory[] => {
-      let size = 0;
-      if (Array.isArray(commit.summaries)) {
-        commit.summaries.forEach((summaryId) => {
-          const summary = summarys?.get(summaryId);
-
-          if (summary) {
-            size = size + summary.added + summary.removed;
-          }
-        });
-      } else {
-        size = commit.summaries.added + commit.summaries.removed;
-      }
-
-      for (const category of categories) {
-        if (size >= category.min && size <= category.max) {
-          inPrev ? category.prevCommitsCount++ : category.currentCommitsCount++;
-
-          break;
-        }
-      }
-
-      return categories;
-    };
-
     commits.forEach((commit) => {
       if (
         commit.timestamp <= currentSprint.finishAt &&
         commit.timestamp >= currentSprint.startAt
       ) {
         commitsInCurrent.push(commit);
-        putInCategory(categories, commit);
+        putInCategory(categories, commit, summarys);
       }
       if (
         prevSprint &&
@@ -124,7 +125,7 @@ export default function createDiagram(
         commit.timestamp >= prevSprint.startAt
       ) {
         commitsInPrev.push(commit);
-        putInCategory(categories, commit, true);
+        putInCategory(categories, commit, summarys, true);
       }
     });
 
