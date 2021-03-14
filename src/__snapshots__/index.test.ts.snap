@@ -32,7 +32,28 @@ Array [
   Object {
     "alias": "diagram",
     "data": Object {
-      "categories": Array [],
+      "categories": Array [
+        Object {
+          "differenceText": "0 коммитов",
+          "title": "> 1001 строки",
+          "valueText": "0 коммитов",
+        },
+        Object {
+          "differenceText": "0 коммитов",
+          "title": "501 — 1000 строк",
+          "valueText": "0 коммитов",
+        },
+        Object {
+          "differenceText": "0 коммитов",
+          "title": "101 — 500 строк",
+          "valueText": "0 коммитов",
+        },
+        Object {
+          "differenceText": "0 коммитов",
+          "title": "1 — 100 строк",
+          "valueText": "0 коммитов",
+        },
+      ],
       "differenceText": "",
       "subtitle": "",
       "title": "Размер коммитов",
@@ -265,7 +286,28 @@ Array [
   Object {
     "alias": "diagram",
     "data": Object {
-      "categories": Array [],
+      "categories": Array [
+        Object {
+          "differenceText": "0 коммитов",
+          "title": "> 1001 строки",
+          "valueText": "0 коммитов",
+        },
+        Object {
+          "differenceText": "0 коммитов",
+          "title": "501 — 1000 строк",
+          "valueText": "0 коммитов",
+        },
+        Object {
+          "differenceText": "0 коммитов",
+          "title": "101 — 500 строк",
+          "valueText": "0 коммитов",
+        },
+        Object {
+          "differenceText": "0 коммитов",
+          "title": "1 — 100 строк",
+          "valueText": "0 коммитов",
+        },
+      ],
       "differenceText": "",
       "subtitle": "",
       "title": "Размер коммитов",
@@ -498,7 +540,28 @@ Array [
   Object {
     "alias": "diagram",
     "data": Object {
-      "categories": Array [],
+      "categories": Array [
+        Object {
+          "differenceText": "0 коммитов",
+          "title": "> 1001 строки",
+          "valueText": "0 коммитов",
+        },
+        Object {
+          "differenceText": "0 коммитов",
+          "title": "501 — 1000 строк",
+          "valueText": "0 коммитов",
+        },
+        Object {
+          "differenceText": "0 коммитов",
+          "title": "101 — 500 строк",
+          "valueText": "0 коммитов",
+        },
+        Object {
+          "differenceText": "0 коммитов",
+          "title": "1 — 100 строк",
+          "valueText": "0 коммитов",
+        },
+      ],
       "differenceText": "",
       "subtitle": "",
       "title": "Размер коммитов",

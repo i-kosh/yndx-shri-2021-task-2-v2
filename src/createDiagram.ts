@@ -74,42 +74,42 @@ export default function createDiagram(
     },
   };
 
+  const categories: ICategory[] = [
+    {
+      title: "> 1001 строки",
+      min: 1001,
+      max: Infinity,
+      currentCommitsCount: 0,
+      prevCommitsCount: 0,
+    },
+    {
+      title: "501 — 1000 строк",
+      min: 501,
+      max: 1000,
+      currentCommitsCount: 0,
+      prevCommitsCount: 0,
+    },
+    {
+      title: "101 — 500 строк",
+      min: 101,
+      max: 500,
+      currentCommitsCount: 0,
+      prevCommitsCount: 0,
+    },
+    {
+      title: "1 — 100 строк",
+      min: 1,
+      max: 100,
+      currentCommitsCount: 0,
+      prevCommitsCount: 0,
+    },
+  ];
+
   if (currentSprint && sprints && commits) {
     const prevSprint = sprints.get(currentSprint.id - 1);
 
     const commitsInCurrent: Commit[] = [];
     const commitsInPrev: Commit[] = [];
-
-    const categories: ICategory[] = [
-      {
-        title: "> 1001 строки",
-        min: 1001,
-        max: Infinity,
-        currentCommitsCount: 0,
-        prevCommitsCount: 0,
-      },
-      {
-        title: "501 — 1000 строк",
-        min: 501,
-        max: 1000,
-        currentCommitsCount: 0,
-        prevCommitsCount: 0,
-      },
-      {
-        title: "101 — 500 строк",
-        min: 101,
-        max: 500,
-        currentCommitsCount: 0,
-        prevCommitsCount: 0,
-      },
-      {
-        title: "1 — 100 строк",
-        min: 1,
-        max: 100,
-        currentCommitsCount: 0,
-        prevCommitsCount: 0,
-      },
-    ];
 
     commits.forEach((commit) => {
       if (
@@ -138,24 +138,24 @@ export default function createDiagram(
     slide.data.differenceText = `${withLeadingSign(
       totalDiff
     )} с прошлого спринта`;
-
-    categories.forEach((category) => {
-      const commitsCountDiff =
-        category.currentCommitsCount - category.prevCommitsCount;
-
-      slide.data.categories.push({
-        title: category.title,
-        valueText: `${category.currentCommitsCount} ${getPlural(
-          category.currentCommitsCount,
-          commitsPlurals
-        )}`,
-        differenceText: `${withLeadingSign(commitsCountDiff)} ${getPlural(
-          commitsCountDiff,
-          commitsPlurals
-        )}`,
-      });
-    });
   }
+
+  categories.forEach((category) => {
+    const commitsCountDiff =
+      category.currentCommitsCount - category.prevCommitsCount;
+
+    slide.data.categories.push({
+      title: category.title,
+      valueText: `${category.currentCommitsCount} ${getPlural(
+        category.currentCommitsCount,
+        commitsPlurals
+      )}`,
+      differenceText: `${withLeadingSign(commitsCountDiff)} ${getPlural(
+        commitsCountDiff,
+        commitsPlurals
+      )}`,
+    });
+  });
 
   return slide;
 }
