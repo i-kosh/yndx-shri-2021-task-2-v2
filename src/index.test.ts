@@ -21,7 +21,15 @@ describe("Всегда возвращает ожидаемый формат да
 });
 
 describe("Функция работает правильно", () => {
-  it("Возвращает правильные данные", () => {
+  it("возвращает правильные данные для спринта 977", () => {
     expect(prepareData(data, { sprintId: 977 })).toMatchSnapshot();
+  });
+
+  it("возвращает правильные данные для спринта 965", () => {
+    expect(prepareData(data, { sprintId: 965 })).toMatchSnapshot();
+  });
+
+  it("возвращает правильные данные для спринта 963", () => {
+    expect(prepareData(data, { sprintId: 963 })).toMatchSnapshot();
   });
 });
