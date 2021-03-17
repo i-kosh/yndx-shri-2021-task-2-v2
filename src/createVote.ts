@@ -36,8 +36,10 @@ export default function createVote(
           return;
         }
 
-        const currentLikesCount = usersMap.get(author);
-        usersMap.set(author, (currentLikesCount || 0) + comment.likes.length);
+        if (comment.likes.length >= 1) {
+          const currentLikesCount = usersMap.get(author);
+          usersMap.set(author, (currentLikesCount || 0) + comment.likes.length);
+        }
       }
     });
   }
