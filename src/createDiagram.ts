@@ -29,22 +29,22 @@ function putInCategory(
   inPrev?: boolean
 ): ICategory[] {
   let size = 0;
-  if (Array.isArray(commit.summaries)) {
-    commit.summaries.forEach((summaryId) => {
-      const summary = summarys?.get(summaryId);
+
+  commit.summaries.forEach((summaryOrId) => {
+    if (typeof summaryOrId === "number") {
+      const summary = summarys?.get(summaryOrId);
 
       if (summary) {
         size = size + summary.added + summary.removed;
       }
-    });
-  } else {
-    size = commit.summaries.added + commit.summaries.removed;
-  }
+    } else {
+      size = size + summaryOrId.added + summaryOrId.removed;
+    }
+  });
 
   for (const category of categories) {
     if (size >= category.min && size <= category.max) {
       inPrev ? category.prevCommitsCount++ : category.currentCommitsCount++;
-
       break;
     }
   }
