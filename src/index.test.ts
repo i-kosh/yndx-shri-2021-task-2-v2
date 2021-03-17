@@ -25,6 +25,14 @@ describe("Функция работает правильно", () => {
     expect(prepareData(data, { sprintId: 977 })).toMatchSnapshot();
   });
 
+  it("возвращает правильные данные для спринта 991", () => {
+    expect(prepareData(data, { sprintId: 991 })).toMatchSnapshot();
+  });
+
+  it("возвращает правильные данные для спринта 994", () => {
+    expect(prepareData(data, { sprintId: 994 })).toMatchSnapshot();
+  });
+
   it("возвращает правильные данные для спринта 965", () => {
     expect(prepareData(data, { sprintId: 965 })).toMatchSnapshot();
   });
