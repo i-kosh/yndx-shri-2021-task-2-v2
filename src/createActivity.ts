@@ -20,13 +20,13 @@ export default function createActivity(
       title: "Коммиты, 1 неделя",
       subtitle: currentSprint?.name || "",
       data: {
-        fri: new Array(24).fill(0),
-        mon: new Array(24).fill(0),
-        sat: new Array(24).fill(0),
         sun: new Array(24).fill(0),
-        thu: new Array(24).fill(0),
+        mon: new Array(24).fill(0),
         tue: new Array(24).fill(0),
         wed: new Array(24).fill(0),
+        thu: new Array(24).fill(0),
+        fri: new Array(24).fill(0),
+        sat: new Array(24).fill(0),
       },
     },
   };
