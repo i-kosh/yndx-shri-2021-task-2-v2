@@ -29,17 +29,21 @@ export default function createVote(
 
   if (currentSprint && comments && users) {
     comments.forEach((comment) => {
-      if (isCommentInSprint(comment, currentSprint)) {
-        const author =
-          typeof comment.author !== "number"
-            ? comment.author
-            : users.get(comment.author);
-        if (!author) {
-          console.warn("автор не найден");
-          return;
-        }
+      const author =
+        typeof comment.author !== "number"
+          ? comment.author
+          : users.get(comment.author);
+      if (!author) {
+        console.warn("автор не найден");
+        return;
+      }
 
-        const currentLikesCount = usersMap.get(author);
+      const currentLikesCount = usersMap.get(author);
+      if (currentLikesCount == null) {
+        usersMap.set(author, 0);
+      }
+
+      if (isCommentInSprint(comment, currentSprint)) {
         usersMap.set(author, (currentLikesCount || 0) + comment.likes.length);
       }
     });
