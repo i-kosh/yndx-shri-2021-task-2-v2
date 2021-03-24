@@ -2,6 +2,12 @@ import { Comment, Sprint, User, CommentId, UserId } from "./types";
 import { Slide, VoteData } from "./stories";
 import getPlural from "./utils/getPlural";
 
+const isCommentInSprint = (comment: Comment, sprint: Sprint) => {
+  return (
+    comment.createdAt >= sprint.startAt && comment.createdAt <= sprint.finishAt
+  );
+};
+
 export default function createVote(
   currentSprint?: Sprint,
   comments?: Map<CommentId, Comment>,
@@ -23,10 +29,7 @@ export default function createVote(
 
   if (currentSprint && comments && users) {
     comments.forEach((comment) => {
-      if (
-        comment.createdAt >= currentSprint.startAt &&
-        comment.createdAt <= currentSprint.finishAt
-      ) {
+      if (isCommentInSprint(comment, currentSprint)) {
         const author =
           typeof comment.author !== "number"
             ? comment.author
