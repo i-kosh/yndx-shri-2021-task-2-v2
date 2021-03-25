@@ -1,3 +1,24 @@
+//                  // //  //
+//       __    ____||_//  //
+//     _/__--~~        ~~~-_
+//    /  /___        ___    \
+//   /  /(  +)      ( + )    |
+//  /  |  ~~~    __  ~~~   _/\/|
+// |    \  ___.-~  ~-.___  \   /
+//  \    \(     ` '      ~~)|   \
+//   \     )              / |    \
+//    \/   /              \ |    |
+//    /   |               | |    |
+//   |    /               |  \__/
+//   |    \_            _/      |    ___
+//   \      ~----...---~       /_.-~~ _/
+//    \_                      |    _-~
+//      \                    /  _-~
+//       ~-.__             _/--~
+//      _.-~  ~~~-----~~~~~
+//     ~-.-. _-~     /_ ._ \
+// Особенность.
+
 import { Commit, Sprint, User, CommitId, UserId } from "./types";
 import { Slide, LeadersData } from "./stories";
 
@@ -56,6 +77,18 @@ export default function createLeaders(
       name: user.name,
       avatar: user.avatar,
       valueText: `${commitsSet.size}`,
+    });
+  }
+
+  // Пытаюсь забороть особенность
+  if (leaders.data.users.length < 1) {
+    users?.forEach((user) => {
+      leaders.data.users.push({
+        id: user.id,
+        name: user.name,
+        avatar: user.avatar,
+        valueText: "0 голосов",
+      });
     });
   }
 
