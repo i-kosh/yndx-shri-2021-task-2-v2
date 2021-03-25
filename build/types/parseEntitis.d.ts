@@ -12,6 +12,10 @@ export interface IReturnData {
     parsed: IParsedEntitis;
     currentSprint?: Sprint;
 }
+/**
+ * Рекурсивно извлекает известные сущности из массива `entities`,
+ * так-же также находит спринт если соответствующий id был передан
+ */
 declare const parseEntitis: (entities: Entity[], currentSprintId?: number | undefined) => IReturnData;
 export default parseEntitis;
 export { parseEntitis };
