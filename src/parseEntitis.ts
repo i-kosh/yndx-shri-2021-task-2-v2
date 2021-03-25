@@ -31,6 +31,11 @@ export interface IReturnData {
   currentSprint?: Sprint;
 }
 
+/**
+ * Добавляет все элементы из `mapFrom` в `mapTo`.
+ *
+ * Пропускает элемент если элемент с таким же ключем уже есть в целевом списке
+ */
 const addToMap = <T extends K["id"], K extends Entity>(
   mapFrom: Map<T, K>,
   mapTo: Map<T, K>
@@ -44,6 +49,10 @@ const addToMap = <T extends K["id"], K extends Entity>(
   });
 };
 
+/**
+ * Рекурсивно извлекает известные сущности из массива `entities`,
+ * так-же также находит спринт если соответствующий id был передан
+ */
 const parseEntitis = (
   entities: Entity[],
   currentSprintId?: SprintId
