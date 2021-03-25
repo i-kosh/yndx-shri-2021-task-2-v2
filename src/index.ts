@@ -24,6 +24,8 @@ export default function prepareData(
 
   const leadersSlide = createLeaders(currentSprint, commits, users);
   const voteSlide = createVote(currentSprint, comments, users);
+
+  // Слайд берет часть данных из другого слайда, т.к данные идентичны
   const chartSlide = createChart(
     currentSprint,
     leadersSlide.data.users,
@@ -41,7 +43,7 @@ export { prepareData };
 // export function _test() {
 //   const thisWindow: any = window;
 
-//   const result = prepareData(thisWindow._data_, { sprintId: 977 });
+//   const result = prepareData(thisWindow._data_, { sprintId: 994 });
 
 //   console.log(result);
 // }
