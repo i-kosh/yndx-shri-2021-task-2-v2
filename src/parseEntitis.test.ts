@@ -77,6 +77,12 @@ describe("Разбирает сущности", () => {
       parseEntitis(projects).parsed.projects.get(testProject.id)
     ).toMatchObject(testProject);
   });
+
+  it("пропускает дублирующиеся сущности", () => {
+    const testData = [...commits, ...commits];
+
+    expect(parseEntitis(testData).parsed.commits.size).toEqual(commits.length);
+  });
 });
 
 describe("Находит текущий спринт", () => {
